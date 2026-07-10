@@ -1,0 +1,195 @@
+<% layout('/layouts/boilerplate') %>
+<style>
+    /* 1. MASTER WRAPPER (Creates the flex row for filters + toggle) */
+    .filter-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 1rem;
+        gap: 1.5rem;
+    }
+
+    /* 2. FILTERS CONTAINER (Scrolls horizontally, stays on the left) */
+    #filters {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 1.2rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        scrollbar-width: none; /* Firefox */
+        flex-grow: 1;          /* Forces filters to take up all leftover space */
+    }
+
+    #filters::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    /* 3. INDIVIDUAL FILTER BUTTONS */
+    .filters {
+        text-align: center;
+        opacity: 0.7;
+        margin-top: 1.5rem;
+        margin-right: 1.2rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.25s ease;
+        min-width: 70px;
+    }
+
+    .filters:hover {
+        opacity: 1;
+        cursor: pointer;
+        transform: translateY(-2px);
+    }
+
+    .filters a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        font-size: 0.85rem;
+    }
+
+    .filters i {
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .filters p {
+        margin: 0; /* Cleans up Bootstrap's default paragraph margin */
+    }
+
+    /* 4. TAX INFO DISPLAY */
+    .tax-info {
+        display: none;
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    /* 5. TAX TOGGLE SWITCH BUTTON (Pinned firmly to the right) */
+    .tax-toggle {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 2rem;
+        height: 3.2rem;
+        padding: 0 1.2rem;
+        display: flex;
+        align-items: center;
+        background: #fff;
+        transition: all 0.2s ease;
+        flex-shrink: 0;       /* Prevents the switch box from shrinking or moving left */
+        margin-left: auto;    /* Pushes it directly to the far right edge */
+    }
+
+    .tax-toggle:hover {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 6. RESPONSIVE FIXES */
+    @media (max-width: 768px) {
+        #filters {
+            gap: 0.8rem;
+        }
+
+        .filters {
+            margin-right: 0.8rem;
+            min-width: 65px;
+        }
+
+        .tax-toggle {
+            padding: 0 0.8rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>
+
+<body>
+    <div class="filter-row">
+        
+        <div id="filters">
+            <div class="filters">
+                <div><a href="/listings"><i class="fa-solid fa-fire"></i> <p>Trending</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Rooms"><i class="fa-solid fa-bed"></i><p>Rooms</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings"><i class="fa-solid fa-mountain-city"></i> <p>Iconic Cities</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Mountains"><i class="fa-solid fa-mountain"></i><p>Mountains</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Castles"><i class="fa-brands fa-fort-awesome"></i><p>Castles</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings"><i class="fa-solid fa-person-swimming"></i><p>Amazing Pools</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Camping"><i class="fa-solid fa-campground"></i><p>Camping</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Farms"><i class="fa-solid fa-cow"></i><p>Farms</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Beach"><i class="fa-solid fa-umbrella-beach"></i><p>Beach</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Arctic"><i class="fa-solid fa-snowflake"></i> <p>Arctic</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Arctic"><i class="fa-solid fa-ship"></i> <p>Boat</p></a></div>
+            </div>
+            <div class="filters">
+                <div><a href="/listings/category/Arctic"><i class="fa-solid fa-golf-ball-tee"></i> <p>Golfing</p></a></div>
+            </div>
+        </div>
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+        <% for(let listing of alllistings) { %>
+            <div class="card col listing-card">
+                <a href="/listings/<%=listing._id%>" class="listing-link">
+                    <img src="<%= listing.image.url%>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+                    
+                    <div class="card-img-overlay">
+                        abcd
+                    </div>
+                    
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b><%= listing.title %></b>
+                            <br>
+                            &#x20B9; <%= listing.price.toLocaleString('en-IN') %> /Night
+                            <i class="tax-info">&nbsp; +18%GST</i>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        <% } %>
+    </div>
+</body>
+
+<script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for(let info of taxInfo) {
+            if (info.style.display != "inline") {
+                info.style.display = "inline";
+            } else {
+                info.style.display = "none";
+            }
+        }
+    });
+</script>
