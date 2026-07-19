@@ -84,6 +84,12 @@ module.exports.createBooking = async (req, res) => {
 
     const listing = await Listing.findById(req.params.id);
 
+    if (!listing) {
+        req.flash("error", "Listing not found");
+        return res.redirect("/listings");
+    }
+
+
     const {
         fullName,
         email,
@@ -97,19 +103,30 @@ module.exports.createBooking = async (req, res) => {
         notes
     } = req.body;
 
+
+
     const oneDay = 1000 * 60 * 60 * 24;
+
 
     const nights = Math.ceil(
         (new Date(checkOut) - new Date(checkIn)) / oneDay
     );
 
+
     const total = listing.price * rooms * nights;
+
+
+
+    const requests = req.body.specialRequests || {};
+
+
 
     const booking = new Booking({
 
         listing: listing._id,
 
         user: req.user._id,
+
 
         fullName,
 
@@ -129,29 +146,38 @@ module.exports.createBooking = async (req, res) => {
 
         checkOut,
 
+
         totalPrice: total,
+
 
         specialRequests: {
 
-            earlyCheckIn: req.body.earlyCheckIn,
+            earlyCheckIn: requests.earlyCheckIn === "true",
 
-            lateCheckOut: req.body.lateCheckOut,
+            lateCheckOut: requests.lateCheckOut === "true",
 
-            extraBed: req.body.extraBed,
+            extraBed: requests.extraBed === "true",
 
-            highFloor: req.body.highFloor,
+            highFloor: requests.highFloor === "true",
 
-            smoking: req.body.smoking,
+            smoking: requests.smoking === "true",
 
-            notes
+            notes: notes
 
         }
 
     });
 
+
+
     await booking.save();
 
-    req.flash("success", "Booking Confirmed!");
+
+    req.flash(
+        "success",
+        "Booking Confirmed!"
+    );
+
 
     res.redirect("/listings");
 
