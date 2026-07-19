@@ -27,6 +27,7 @@ const upload = multer({ dest: 'uploads/' })
 const listingsroute=require("./routes/listing.js");
 const reviewsroute=require("./routes/reviews.js");
 const userrouter=require("./routes/user.js");
+const bookingroute=require("./routes/bookings.js")
 
 
 app.engine('ejs', ejsmate);
@@ -113,9 +114,19 @@ app.use((req,res,next)=>{
 //     res.send(reg1);
 // });
 
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+app.get("/home", (req, res) => {
+    res.render("home");
+});
+
+
 app.use("/listings",listingsroute);
 app.use("/listings/:id/reviews",reviewsroute);
 app.use("/",userrouter);
+app.use("/listings/:id/book", bookingroute);
 
 
 

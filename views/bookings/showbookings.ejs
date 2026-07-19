@@ -1,0 +1,371 @@
+<% layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/showBookings.css">
+
+<div class="container my-5">
+
+```
+<div class="booking-header text-center mb-5">
+    <h1 class="fw-bold text-danger">
+        My Bookings
+    </h1>
+
+    <p class="text-muted">
+        Manage your hotel reservations easily
+    </p>
+</div>
+
+
+<!-- FILTER BUTTONS -->
+
+<div class="booking-filter text-center mb-5">
+
+    <a href="/listings/bookings"
+       class="filter-btn <%= selectedStatus === 'All' ? 'active' : '' %>">
+        All
+    </a>
+
+
+    <a href="/listings/bookings?status=Confirmed"
+       class="filter-btn success <%= selectedStatus === 'Confirmed' ? 'active' : '' %>">
+        ✓ Confirmed
+    </a>
+
+
+    <a href="/listings/bookings?status=Cancelled"
+       class="filter-btn danger <%= selectedStatus === 'Cancelled' ? 'active' : '' %>">
+        ✕ Cancelled
+    </a>
+
+</div>
+
+
+
+<% if(bookings.length === 0){ %>
+
+
+    <div class="empty-box">
+
+        <div class="empty-icon">
+            🏨
+        </div>
+
+        <h3>
+            No Bookings Found
+        </h3>
+
+        <p>
+            You don't have any bookings in this category.
+        </p>
+
+
+        <a href="/listings"
+           class="btn btn-danger px-5">
+            Explore Hotels
+        </a>
+
+    </div>
+
+
+<% } else { %>
+
+
+    <div class="row g-4">
+
+
+        <% bookings.forEach((booking)=>{ %>
+
+
+            <div class="col-lg-6">
+
+
+                <div class="booking-card
+                <%= booking.bookingStatus === 'Cancelled' ? 'cancelled-card' : '' %>">
+
+
+                    <!-- IMAGE -->
+
+
+                    <% if(booking.listing){ %>
+
+
+                        <img 
+                        src="<%= booking.listing.image?.url || '/images/default-hotel.jpg' %>"
+                        class="booking-img"
+                        alt="Hotel">
+
+
+                    <% } else { %>
+
+
+                        <img
+                        src="/images/default-hotel.jpg"
+                        class="booking-img"
+                        alt="Unavailable">
+
+
+                    <% } %>
+
+
+
+
+                    <div class="card-content">
+
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+
+                            <div>
+
+
+                                <% if(booking.listing){ %>
+
+                                    <h3>
+                                        <%= booking.listing.title %>
+                                    </h3>
+
+
+                                    <p class="location">
+                                        📍 <%= booking.listing.location %>,
+                                        <%= booking.listing.country %>
+                                    </p>
+
+
+                                <% } else { %>
+
+
+                                    <h3 class="text-danger">
+                                        Listing Removed
+                                    </h3>
+
+
+                                    <p class="text-muted">
+                                        This hotel is no longer available.
+                                    </p>
+
+
+                                <% } %>
+
+
+                            </div>
+
+
+
+                            <div>
+
+
+                                <% if(booking.bookingStatus==="Confirmed"){ %>
+
+
+                                    <span class="status confirmed">
+                                        Confirmed
+                                    </span>
+
+
+                                <% } else { %>
+
+
+                                    <span class="status cancelled">
+                                        Cancelled
+                                    </span>
+
+
+                                <% } %>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <hr>
+
+
+
+                        <div class="booking-info">
+
+
+                            <p>
+                                <b>Guest:</b>
+                                <%= booking.fullName %>
+                            </p>
+
+
+                            <p>
+                                <b>Email:</b>
+                                <%= booking.email %>
+                            </p>
+
+
+                            <p>
+                                <b>Phone:</b>
+                                <%= booking.phone %>
+                            </p>
+
+
+
+                            <div class="date-box">
+
+
+                                <div>
+                                    <small>
+                                        Check-In
+                                    </small>
+
+                                    <strong>
+                                        <%= booking.checkIn.toDateString() %>
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+                                    <small>
+                                        Check-Out
+                                    </small>
+
+                                    <strong>
+                                        <%= booking.checkOut.toDateString() %>
+                                    </strong>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="guest-summary">
+
+
+                                <span>
+                                    👨 Adults:
+                                    <%= booking.adults %>
+                                </span>
+
+
+                                <span>
+                                    👧 Children:
+                                    <%= booking.children %>
+                                </span>
+
+
+                                <span>
+                                    🛏 Rooms:
+                                    <%= booking.rooms %>
+                                </span>
+
+
+                            </div>
+
+
+
+
+                            <p>
+                                <b>Room Type:</b>
+                                <%= booking.roomType %>
+                            </p>
+
+
+
+                        </div>
+
+
+
+
+                        <div class="price-box">
+
+
+                            <span>
+                                Total Amount
+                            </span>
+
+
+                            <h2>
+                                ₹ <%= booking.totalPrice + (booking.totalPrice * 0.18) %>
+                            </h2>
+
+
+                            <small>
+                                Including 18% taxes
+                            </small>
+
+
+                        </div>
+
+
+
+
+
+
+                        <% if(booking.bookingStatus !== "Cancelled"){ %>
+
+
+
+                            <form
+                            action="/listings/bookings/<%= booking._id %>/cancel?_method=PUT"
+                            method="POST">
+
+
+                                <button
+                                class="btn btn-danger action-btn"
+                                onclick="return confirm('Cancel this booking?')">
+
+                                    Cancel Booking
+
+                                </button>
+
+
+                            </form>
+
+
+
+                        <% } else { %>
+
+
+
+                            <form
+                            action="/listings/bookings/<%= booking._id %>/delete?_method=DELETE"
+                            method="POST">
+
+
+                                <button
+                                class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Remove this cancelled booking permanently?')">
+
+                                    Remove From Cancelled
+
+                                </button>
+
+
+                            </form>
+
+
+
+                        <% } %>
+
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+        <% }) %>
+
+
+    </div>
+
+
+
+<% } %>
+```
+
+</div>

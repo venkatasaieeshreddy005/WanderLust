@@ -1,4 +1,5 @@
 const listing = require("../models/listing.js");
+const Booking=require("../models/booking.js");
 
 
 module.exports.index=async (req, res) => {
@@ -89,4 +90,60 @@ module.exports.categoyListing = async (req, res) => {
     }
 
     res.render("listings/index.ejs", { alllistings });
+};
+
+module.exports.searchListing=async (req, res) => {
+
+    let { query } = req.query;
+
+
+    if (!query) {
+        return res.redirect("/listings");
+    }
+
+
+    let listings = await listing.find({
+
+        $or: [
+            {
+                location: {
+                    $regex: query,
+                    $options: "i"
+                }
+            },
+
+            {
+                country: {
+                    $regex: query,
+                    $options: "i"
+                }
+            }
+        ]
+
+    });
+
+
+    if (listings.length === 0) {
+
+    req.flash("error", "No listings found for your search.");
+
+    return res.redirect("/listings");
+
+}
+
+
+res.render("listings/index", {alllistings: listings,currUser: req.user});
+
+};
+
+module.exports.removeFromCancel=async (req, res) => {
+
+    let { id } = req.params;
+
+    await Booking.findByIdAndDelete(id);
+
+    req.flash("success", "Cancelled booking removed successfully");
+
+    res.redirect("/listings/bookings?status=Cancelled");
+
 };

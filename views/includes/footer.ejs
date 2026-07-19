@@ -1,15 +1,197 @@
-<footer>
-    <div class="f-info">
-        <div class="f-info-social">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-linkedin"></i>
+<style>
+
+.footer {
+
+    background:#222;
+    color:white;
+    padding:35px 20px;
+    margin-top:50px;
+
+}
+
+
+.footer-container {
+
+    max-width:1200px;
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    flex-wrap:wrap;
+    gap:20px;
+
+}
+
+
+
+/* SOCIAL ICONS */
+
+.footer-social {
+
+    display:flex;
+    gap:18px;
+
+}
+
+
+.footer-social a {
+
+    color:white;
+    font-size:25px;
+    transition:.3s;
+
+}
+
+
+.footer-social a:hover {
+
+    color:#fe424d;
+    transform:translateY(-4px);
+
+}
+
+
+
+/* BRAND */
+
+.footer-brand {
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#ddd;
+    font-size:16px;
+
+}
+
+
+.footer-brand i {
+
+    color:#fe424d;
+
+}
+
+
+
+/* LINKS */
+
+.footer-links {
+
+    display:flex;
+    gap:20px;
+
+}
+
+
+.footer-links a {
+
+    color:#ddd;
+    text-decoration:none;
+
+    font-size:15px;
+    transition:.3s;
+
+}
+
+
+.footer-links a:hover {
+
+    color:#fe424d;
+
+}
+
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+
+    .footer-container {
+
+        flex-direction:column;
+        text-align:center;
+
+    }
+
+
+    .footer-links {
+
+        flex-direction:column;
+        gap:10px;
+
+    }
+
+}
+
+
+</style>
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <!-- Social Media -->
+
+        <div class="footer-social">
+
+            <a href="#" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+
+            <a href="#" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a href="#" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+            </a>
 
         </div>
-        <div class="f-info-brand"><i class="fa-regular fa-copyright"></i>WanderLust Private LImited</div>
-        <div class="f-info-links">
-            <a href="/privacy">privacy</a>
-            <a href="/terms">terms</a>
+
+
+
+        <!-- Brand -->
+
+        <div class="footer-brand">
+
+            <i class="fa-regular fa-copyright"></i>
+
+            <span>
+                2026 WanderLust Private Limited
+            </span>
+
         </div>
+
+
+
+        <!-- Links -->
+
+        <div class="footer-links">
+
+            <a href="/privacy">
+                Privacy Policy
+            </a>
+
+            <a href="/terms">
+                Terms & Conditions
+            </a>
+
+            <a href="/contact">
+                Contact Us
+            </a>
+
+        </div>
+
+
     </div>
+
 </footer>
+
+
+

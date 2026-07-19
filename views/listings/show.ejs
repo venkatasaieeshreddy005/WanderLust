@@ -41,7 +41,7 @@
     <div class="offset-3 mb-3 mt-1">
 
     
-    <a href="/" ><button type="button" class="btn btn-success">Book Now</button></a>
+    <a href="/listings/<%= l1._id %>/book" ><button type="button" class="btn btn-success">Book Now</button></a>
     </div>
 
     
@@ -106,9 +106,11 @@
                 <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>       
                 <p class="card-text"><%= review.comment %></review></p>     
             </div>
-            <form action="/listings/<%= l1._id %>/reviews/<%=review._id%>?_method=Delete" class="mb-3" method="POST">
-                <button class="btn btn-dark">Delete</button>
-            </form>
+            <% if (currUser && review.author && review.author._id.equals(currUser._id)) { %>
+    <form method="POST" action="/listings/<%= l1._id %>/reviews/<%= review._id %>?_method=DELETE">
+        <button class="btn btn-danger">Delete</button>
+    </form>
+<% } %>
             </div>
         <% } %>
         </div>

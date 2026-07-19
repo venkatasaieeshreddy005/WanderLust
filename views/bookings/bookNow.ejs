@@ -1,0 +1,664 @@
+<% layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/bookNow.css">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+<div class="booking-page">
+
+<div class="container py-5">
+
+<div class="row g-4">
+
+
+<!-- LEFT SIDE FORM -->
+
+<div class="col-lg-8">
+
+
+<div class="booking-card">
+
+
+<div class="card-header-custom">
+
+<h2>
+<i class="bi bi-calendar2-check"></i>
+Book Your Stay
+</h2>
+
+<p>
+Complete your details and confirm your reservation
+</p>
+
+</div>
+
+
+<div class="card-body-custom">
+
+
+<form action="/listings/<%= listing._id %>/book" method="POST">
+
+
+
+<!-- Guest Information -->
+
+<div class="form-section">
+
+
+<h5>
+<i class="bi bi-person-circle"></i>
+Guest Information
+</h5>
+
+
+<div class="row">
+
+
+<div class="col-md-6 mb-3">
+
+<label>
+Full Name
+</label>
+
+<input
+type="text"
+class="form-control"
+name="fullName"
+value="<%= currUser.username %>"
+required>
+
+</div>
+
+
+
+<div class="col-md-6 mb-3">
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+class="form-control"
+name="email"
+value="<%= currUser.email %>"
+required>
+
+</div>
+
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label>
+Phone Number
+</label>
+
+<input
+type="tel"
+class="form-control"
+name="phone"
+placeholder="Enter phone number"
+required>
+
+</div>
+
+
+<div class="row">
+
+
+<div class="col-md-6">
+
+<label>
+Adults
+</label>
+
+<input
+type="number"
+class="form-control"
+name="adults"
+min="1"
+value="1">
+
+</div>
+
+
+<div class="col-md-6">
+
+<label>
+Children
+</label>
+
+<input
+type="number"
+class="form-control"
+name="children"
+min="0"
+value="0">
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- Booking Details -->
+
+
+<div class="form-section">
+
+
+<h5>
+<i class="bi bi-calendar-event"></i>
+Booking Details
+</h5>
+
+
+<div class="row">
+
+
+<div class="col-md-6 mb-3">
+
+<label>
+Check In
+</label>
+
+<input
+type="date"
+class="form-control"
+id="checkIn"
+name="checkIn"
+required>
+
+</div>
+
+
+
+<div class="col-md-6 mb-3">
+
+<label>
+Check Out
+</label>
+
+<input
+type="date"
+class="form-control"
+id="checkOut"
+name="checkOut"
+required>
+
+</div>
+
+
+</div>
+
+
+
+<div class="row">
+
+
+<div class="col-md-6">
+
+<label>
+Rooms
+</label>
+
+<input
+type="number"
+class="form-control"
+id="rooms"
+name="rooms"
+min="1"
+value="1">
+
+</div>
+
+
+
+<div class="col-md-6">
+
+<label>
+Room Type
+</label>
+
+<select
+class="form-select"
+name="roomType">
+
+
+<option>
+Standard
+</option>
+
+<option>
+Deluxe
+</option>
+
+<option>
+Suite
+</option>
+
+
+</select>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- Requests -->
+
+
+<div class="form-section">
+
+
+<h5>
+<i class="bi bi-stars"></i>
+Special Requests
+</h5>
+
+
+<div class="request-grid">
+
+
+<label class="request-box">
+
+<input
+type="checkbox"
+name="earlyCheckIn">
+
+<span>
+Early Check-in
+</span>
+
+</label>
+
+
+
+<label class="request-box">
+
+<input
+type="checkbox"
+name="lateCheckOut">
+
+<span>
+Late Check-out
+</span>
+
+</label>
+
+
+
+<label class="request-box">
+
+<input
+type="checkbox"
+name="extraBed">
+
+<span>
+Extra Bed
+</span>
+
+</label>
+
+
+
+<label class="request-box">
+
+<input
+type="checkbox"
+name="highFloor">
+
+<span>
+High Floor
+</span>
+
+</label>
+
+
+
+<label class="request-box">
+
+<input
+type="checkbox"
+name="smoking">
+
+<span>
+Smoking Room
+</span>
+
+</label>
+
+
+
+</div>
+
+
+
+<textarea
+class="form-control mt-3"
+rows="4"
+name="notes"
+placeholder="Any additional requests">
+</textarea>
+
+
+</div>
+
+
+
+
+
+<!-- Identity -->
+
+
+<div class="form-section">
+
+
+<h5>
+<i class="bi bi-shield-check"></i>
+Identity Verification
+</h5>
+
+
+<div class="info-box">
+
+Government ID is required during hotel check-in.
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Payment -->
+
+
+<div class="form-section">
+
+
+<h5>
+<i class="bi bi-credit-card"></i>
+Payment
+</h5>
+
+
+<div class="payment-box">
+
+<strong>
+Pay at Hotel
+</strong>
+
+<br>
+
+No advance payment required.
+
+</div>
+
+
+
+<div class="terms">
+
+<input
+type="checkbox"
+required>
+
+
+<span>
+I agree to Terms & Conditions
+</span>
+
+</div>
+
+
+
+<button class="btn btn-danger confirm-btn">
+
+Confirm Booking
+
+</button>
+
+
+</div>
+
+
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- RIGHT SIDE SUMMARY -->
+
+
+<div class="col-lg-4">
+
+
+<div class="summary-card">
+
+
+<img
+src="<%= listing.image.url %>"
+class="listing-img">
+
+
+
+<div class="summary-body">
+
+
+<h3>
+<%= listing.title %>
+</h3>
+
+
+<p class="location">
+
+<i class="bi bi-geo-alt"></i>
+
+<%= listing.location %>,
+<%= listing.country %>
+
+</p>
+
+
+
+<hr>
+
+
+
+<h5>
+Booking Summary
+</h5>
+
+
+
+<div class="summary-row">
+
+<span>
+Price / Night
+</span>
+
+<strong>
+₹ <%= listing.price %>
+</strong>
+
+</div>
+
+
+
+<div class="summary-row">
+
+<span>
+Nights
+</span>
+
+<strong id="nights">
+0
+</strong>
+
+</div>
+
+
+
+<div class="summary-row">
+
+<span>
+Rooms
+</span>
+
+<strong id="roomCount">
+1
+</strong>
+
+</div>
+
+
+
+<div class="summary-row">
+
+<span>
+Taxes (18%)
+</span>
+
+<strong id="tax">
+₹0
+</strong>
+
+</div>
+
+
+
+<div class="total-box">
+
+Total
+
+<span id="totalPrice">
+₹0
+</span>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+<script>
+
+const checkIn=document.getElementById("checkIn");
+const checkOut=document.getElementById("checkOut");
+const rooms=document.getElementById("rooms");
+
+const nights=document.getElementById("nights");
+const total=document.getElementById("totalPrice");
+const roomCount=document.getElementById("roomCount");
+const tax=document.getElementById("tax");
+
+
+const price=<%= listing.price %>;
+
+
+
+function calculate(){
+
+
+if(checkIn.value && checkOut.value){
+
+
+let start=new Date(checkIn.value);
+
+let end=new Date(checkOut.value);
+
+
+let diff=(end-start)/(1000*60*60*24);
+
+
+
+if(diff>0){
+
+
+nights.innerText=diff;
+
+
+roomCount.innerText=rooms.value;
+
+
+let subtotal=price*diff*rooms.value;
+
+
+let taxes=subtotal*0.18;
+
+
+tax.innerText="₹"+taxes.toFixed(0);
+
+
+total.innerText="₹"+(subtotal+taxes).toFixed(0);
+
+
+}
+
+
+}
+
+
+}
+
+
+
+checkIn.addEventListener("change",calculate);
+
+checkOut.addEventListener("change",calculate);
+
+rooms.addEventListener("input",calculate);
+
+
+</script>
