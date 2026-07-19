@@ -2,7 +2,7 @@ const Listing = require("../models/listing.js");
 const Booking = require("../models/booking.js");
 
 
-module.exports.showbookings=module.exports.showbookings = async (req, res) => {
+module.exports.showbookings = async (req, res) => {
 
     let filter = {
         user: req.user._id
@@ -21,7 +21,7 @@ module.exports.showbookings=module.exports.showbookings = async (req, res) => {
         .populate("listing");
 
 
-    res.render("bookings/showBookings", {
+    res.render("bookings/showbookings", {
         bookings,
         selectedStatus: req.query.status || "All"
     });
